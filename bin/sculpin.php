@@ -40,8 +40,8 @@ if (function_exists('ini_set')) {
 }
 
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerBuilder;
-use Sculpin\Bundle\SculpinBundle\Console\Application;
 use Sculpin\Bundle\SculpinBundle\HttpKernel\KernelFactory;
+use Sculpin\Bundle\StandaloneBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
 $input = new ArgvInput;
