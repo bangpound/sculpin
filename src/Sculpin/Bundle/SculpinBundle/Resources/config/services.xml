@@ -24,7 +24,6 @@
         <parameter key="sculpin.command.install.class">Dflydev\EmbeddedComposer\Console\Command\InstallCommand</parameter>
         <parameter key="sculpin.command.update.class">Dflydev\EmbeddedComposer\Console\Command\UpdateCommand</parameter>
 
-        <parameter key="sculpin.command.container_debug.class">Sculpin\Bundle\SculpinBundle\Command\ContainerDebugCommand</parameter>
         <parameter key="sculpin.command.generate.class">Sculpin\Bundle\SculpinBundle\Command\GenerateCommand</parameter>
         <parameter key="sculpin.command.self_update.class">Sculpin\Bundle\SculpinBundle\Command\SelfUpdateCommand</parameter>
         <parameter key="sculpin.command.serve.class">Sculpin\Bundle\SculpinBundle\Command\ServeCommand</parameter>
@@ -138,10 +137,6 @@
 
         <service id="sculpin.command.update" class="%sculpin.command.update.class%">
             <argument>sculpin:</argument>
-            <tag name="console.command" />
-        </service>
-
-        <service id="sculpin.command.container_debug" class="%sculpin.command.container_debug.class%">
             <tag name="console.command" />
         </service>
 

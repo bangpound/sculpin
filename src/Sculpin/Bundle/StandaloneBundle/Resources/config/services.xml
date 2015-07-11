@@ -4,9 +4,13 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
         <parameter key="sculpin_standalone.command.cache_clear.class">Sculpin\Bundle\StandaloneBundle\Command\CacheClearCommand</parameter>
+        <parameter key="sculpin_standalone.command.container_debug.class">Sculpin\Bundle\StandaloneBundle\Command\ContainerDebugCommand</parameter>
     </parameters>
     <services>
         <service id="sculpin_standalone.command.cache_clear" class="%sculpin_standalone.command.cache_clear.class%">
+            <tag name="console.command" />
+        </service>
+        <service id="sculpin_standalone.command.container_debug" class="%sculpin_standalone.command.container_debug.class%">
             <tag name="console.command" />
         </service>
     </services>
