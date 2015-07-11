@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Bundle\SculpinBundle\Console;
+namespace Sculpin\Bundle\StandaloneBundle\Console;
 
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
