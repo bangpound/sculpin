@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\StandaloneBundle;
 
 use Sculpin\Bundle\StandaloneBundle\DependencyInjection\Compiler\AddConsoleCommandPass;
+use Sculpin\Bundle\StandaloneBundle\DependencyInjection\Compiler\ModifyComposerCommandPass;
 use Sculpin\Bundle\StandaloneBundle\DependencyInjection\Compiler\RegisterKernelListenersPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,6 +28,7 @@ class SculpinStandaloneBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new AddConsoleCommandPass());
+        $container->addCompilerPass(new ModifyComposerCommandPass());
         $container->addCompilerPass(new RegisterKernelListenersPass, PassConfig::TYPE_AFTER_REMOVING);
     }
 }
