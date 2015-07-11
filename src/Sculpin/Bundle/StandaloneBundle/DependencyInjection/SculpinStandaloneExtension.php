@@ -29,6 +29,6 @@ class SculpinStandaloneExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.xml');
+        $loader->load('framework.xml');
     }
 }
