@@ -20,9 +20,9 @@
         <parameter key="sculpin.finder_factory.class">Dflydev\Symfony\FinderFactory\FinderFactory</parameter>
         <parameter key="sculpin.configuration.path_configurator.class">Sculpin\Bundle\SculpinBundle\Sculpin\Configuration\PathConfigurator</parameter>
 
-        <parameter key="sculpin.command.dump_autoload.class">Sculpin\Bundle\SculpinBundle\Command\DumpAutoloadCommand</parameter>
-        <parameter key="sculpin.command.install.class">Sculpin\Bundle\SculpinBundle\Command\InstallCommand</parameter>
-        <parameter key="sculpin.command.update.class">Sculpin\Bundle\SculpinBundle\Command\UpdateCommand</parameter>
+        <parameter key="sculpin.command.dump_autoload.class">Dflydev\EmbeddedComposer\Console\Command\DumpAutoloadCommand</parameter>
+        <parameter key="sculpin.command.install.class">Dflydev\EmbeddedComposer\Console\Command\InstallCommand</parameter>
+        <parameter key="sculpin.command.update.class">Dflydev\EmbeddedComposer\Console\Command\UpdateCommand</parameter>
 
         <parameter key="sculpin.command.container_debug.class">Sculpin\Bundle\SculpinBundle\Command\ContainerDebugCommand</parameter>
         <parameter key="sculpin.command.generate.class">Sculpin\Bundle\SculpinBundle\Command\GenerateCommand</parameter>
@@ -127,14 +127,17 @@
         <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" />
 
         <service id="sculpin.command.dump_autoload" class="%sculpin.command.dump_autoload.class%">
+            <argument>sculpin:</argument>
             <tag name="console.command" />
         </service>
 
         <service id="sculpin.command.install" class="%sculpin.command.install.class%">
+            <argument>sculpin:</argument>
             <tag name="console.command" />
         </service>
 
         <service id="sculpin.command.update" class="%sculpin.command.update.class%">
+            <argument>sculpin:</argument>
             <tag name="console.command" />
         </service>
 
