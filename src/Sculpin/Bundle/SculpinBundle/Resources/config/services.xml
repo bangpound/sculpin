@@ -19,6 +19,15 @@
         <parameter key="sculpin.source_permalink_factory.class">Sculpin\Core\Permalink\SourcePermalinkFactory</parameter>
         <parameter key="sculpin.finder_factory.class">Dflydev\Symfony\FinderFactory\FinderFactory</parameter>
         <parameter key="sculpin.configuration.path_configurator.class">Sculpin\Bundle\SculpinBundle\Sculpin\Configuration\PathConfigurator</parameter>
+
+        <parameter key="sculpin.command.dump_autoload.class">Sculpin\Bundle\SculpinBundle\Command\DumpAutoloadCommand</parameter>
+        <parameter key="sculpin.command.install.class">Sculpin\Bundle\SculpinBundle\Command\InstallCommand</parameter>
+        <parameter key="sculpin.command.update.class">Sculpin\Bundle\SculpinBundle\Command\UpdateCommand</parameter>
+
+        <parameter key="sculpin.command.container_debug.class">Sculpin\Bundle\SculpinBundle\Command\ContainerDebugCommand</parameter>
+        <parameter key="sculpin.command.generate.class">Sculpin\Bundle\SculpinBundle\Command\GenerateCommand</parameter>
+        <parameter key="sculpin.command.self_update.class">Sculpin\Bundle\SculpinBundle\Command\SelfUpdateCommand</parameter>
+        <parameter key="sculpin.command.serve.class">Sculpin\Bundle\SculpinBundle\Command\ServeCommand</parameter>
     </parameters>
 
     <services>
@@ -117,5 +126,32 @@
 
         <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" />
 
+        <service id="sculpin.command.dump_autoload" class="%sculpin.command.dump_autoload.class%">
+            <tag name="console.command" />
+        </service>
+
+        <service id="sculpin.command.install" class="%sculpin.command.install.class%">
+            <tag name="console.command" />
+        </service>
+
+        <service id="sculpin.command.update" class="%sculpin.command.update.class%">
+            <tag name="console.command" />
+        </service>
+
+        <service id="sculpin.command.container_debug" class="%sculpin.command.container_debug.class%">
+            <tag name="console.command" />
+        </service>
+
+        <service id="sculpin.command.generate" class="%sculpin.command.generate.class%">
+            <tag name="console.command" />
+        </service>
+
+        <service id="sculpin.command.self_update" class="%sculpin.command.self_update.class%">
+            <tag name="console.command" />
+        </service>
+
+        <service id="sculpin.command.serve" class="%sculpin.command.serve.class%">
+            <tag name="console.command" />
+        </service>
     </services>
 </container>

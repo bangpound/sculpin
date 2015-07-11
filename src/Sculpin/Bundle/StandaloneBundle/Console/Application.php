@@ -152,10 +152,17 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     protected function registerCommands()
     {
         $this->kernel->boot();
+        $container = $this->kernel->getContainer();
 
         foreach ($this->kernel->getBundles() as $bundle) {
             if ($bundle instanceof BundleInterface) {
                 $bundle->registerCommands($this);
+            }
+        }
+
+        if ($container->hasParameter('console.command.ids')) {
+            foreach ($container->getParameter('console.command.ids') as $id) {
+                $this->add($container->get($id));
             }
         }
     }
