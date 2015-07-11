@@ -26,7 +26,7 @@
  * THE SOFTWARE.
  */
 
-namespace Sculpin\Bundle\SculpinBundle\Command;
+namespace Sculpin\Bundle\StandaloneBundle\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
