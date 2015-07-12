@@ -12,6 +12,7 @@
 
 namespace Sculpin\Bundle\StandaloneBundle\Command;
 
+use Sculpin\Bundle\SculpinBundle\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -23,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Francis Besset <francis.besset@gmail.com>
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class CacheClearCommand extends ContainerAwareCommand
+class CacheClearCommand extends AbstractCommand
 {
     /**
      * {@inheritdoc}

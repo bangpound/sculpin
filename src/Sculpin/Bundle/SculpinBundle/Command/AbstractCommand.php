@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Bundle\StandaloneBundle\Command;
+namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class ContainerAwareCommand extends Command implements ContainerAwareInterface
+abstract class AbstractCommand extends Command implements ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -32,10 +32,6 @@ abstract class ContainerAwareCommand extends Command implements ContainerAwareIn
      */
     protected function getContainer()
     {
-        if (null === $this->container) {
-            $this->container = $this->getApplication()->getKernel()->getContainer();
-        }
-
         return $this->container;
     }
 
