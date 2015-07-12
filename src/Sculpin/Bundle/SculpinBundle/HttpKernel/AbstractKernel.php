@@ -121,8 +121,9 @@ abstract class AbstractKernel extends Kernel
     protected function initializeContainer()
     {
         $container = $this->buildContainer();
-        $container->set('kernel', $this);
+        $container->compile();
         $this->container = $container;
+        $this->container->set('kernel', $this);
     }
 
     /**
