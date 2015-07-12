@@ -25,7 +25,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -111,9 +110,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
         } else {
             $this->registerCommands();
             $container = $this->kernel->getContainer();
-            /** @var EventDispatcherInterface $eventDispatcher */
-            $eventDispatcher = $container->get('event_dispatcher');
-            $this->setDispatcher($eventDispatcher);
+            $this->setDispatcher($container->get('event_dispatcher'));
         }
 
         return parent::doRun($input, $output);
