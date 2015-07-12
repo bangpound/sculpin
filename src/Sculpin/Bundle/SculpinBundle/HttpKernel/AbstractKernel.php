@@ -100,20 +100,6 @@ abstract class AbstractKernel extends Kernel
     /**
      * {@inheritdoc}
      */
-    public function boot()
-    {
-        if (true === $this->booted) {
-            return;
-        }
-
-        parent::boot();
-
-        $this->container->compile();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function buildContainer()
     {
         $container = $this->getContainerBuilder();
