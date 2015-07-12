@@ -12,15 +12,15 @@
 namespace Sculpin\Bundle\StandaloneBundle\Command;
 
 use Composer\Downloader\FilesystemException;
-use Sculpin\Bundle\StandaloneBundle\Command\ContainerAwareCommand;
 use Sculpin\Core\Sculpin;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @author Igor Wiedler <igor@wiedler.ch>
  */
-class SelfUpdateCommand extends ContainerAwareCommand
+class SelfUpdateCommand extends Command
 {
     protected $message = '';
     private $commandPrefix;

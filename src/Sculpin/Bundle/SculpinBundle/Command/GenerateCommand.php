@@ -12,7 +12,6 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
-use Sculpin\Bundle\StandaloneBundle\Command\ContainerAwareCommand;
 use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class GenerateCommand extends ContainerAwareCommand
+class GenerateCommand extends AbstractCommand
 {
     /**
      * {@inheritdoc}
