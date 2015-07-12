@@ -10,9 +10,9 @@ class ModifyComposerCommandPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $ids = array(
-          'sculpin.command.dump_autoload',
-          'sculpin.command.install',
-          'sculpin.command.update',
+          'sculpin_composer.command.dump_autoload',
+          'sculpin_composer.command.install',
+          'sculpin_composer.command.update',
         );
         foreach ($ids as $id) {
             $definition = $container->getDefinition($id);
