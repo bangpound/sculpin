@@ -25,6 +25,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -39,6 +40,8 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     protected $kernel;
     protected $embeddedComposer;
     
+    private $commandsRegistered = false;
+
     /**
      * Constructor.
      *
@@ -109,8 +112,20 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
             $this->add(new SelfUpdateCommand(''));
             $this->add(new UpdateCommand(''));
         } else {
-            $this->registerCommands();
+            if (!$this->commandsRegistered) {
+                $this->registerCommands();
+
+                $this->commandsRegistered = true;
+            }
+
             $container = $this->kernel->getContainer();
+
+            foreach ($this->all() as $command) {
+                if ($command instanceof ContainerAwareInterface) {
+                    $command->setContainer($container);
+                }
+            }
+
             $this->setDispatcher($container->get('event_dispatcher'));
         }
 
