@@ -34,7 +34,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Definition;
-use Sculpin\Core\Console\Command\ContainerAwareCommand;
 
 /**
  * A console command for retrieving information about services

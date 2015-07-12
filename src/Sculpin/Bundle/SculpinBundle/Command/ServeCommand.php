@@ -12,7 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
-use Sculpin\Core\Console\Command\ContainerAwareCommand;
+use Sculpin\Bundle\StandaloneBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;

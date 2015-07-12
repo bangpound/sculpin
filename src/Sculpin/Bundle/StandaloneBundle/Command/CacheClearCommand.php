@@ -12,7 +12,6 @@
 
 namespace Sculpin\Bundle\StandaloneBundle\Command;
 
-use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
