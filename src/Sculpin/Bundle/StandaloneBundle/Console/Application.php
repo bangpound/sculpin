@@ -119,30 +119,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
             $this->setDispatcher($eventDispatcher);
         }
 
-        $exitCode = parent::doRun($input, $output);
-
-        foreach ($this->getMissingSculpinBundlesMessages() as $message) {
-            $output->writeln($message);
-        }
-
-        return $exitCode;
-    }
-
-    public function getMissingSculpinBundlesMessages()
-    {
-        $messages = array();
-
-        // Display missing bundle to user.
-        if ($missingBundles = $this->kernel->getMissingSculpinBundles()) {
-            $messages[] = '';
-            $messages[] = '<comment>Missing Sculpin Bundles:</comment>';
-            foreach ($missingBundles as $bundle) {
-                $messages[] = "  * <highlight>$bundle</highlight>";
-            }
-            $messages[] = '';
-        }
-
-        return $messages;
+        return parent::doRun($input, $output);
     }
 
     /**

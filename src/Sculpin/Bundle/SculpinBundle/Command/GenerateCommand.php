@@ -53,10 +53,6 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        foreach ($this->getApplication()->getMissingSculpinBundlesMessages() as $message) {
-            $output->writeln($message);
-        }
-
         $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
         if ($input->getOption('clean')) {
             $this->clean($input, $output, $docroot);
