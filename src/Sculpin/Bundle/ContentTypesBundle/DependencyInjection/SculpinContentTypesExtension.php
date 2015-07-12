@@ -228,14 +228,14 @@ class SculpinContentTypesExtension extends Extension
             $container->setDefinition($dataProviderId, $dataProvider);
 
             foreach ($setup['taxonomies'] as $taxonomy) {
-                $permalinkStrategies = new PermalinkStrategyCollection();
+                $permalinkStrategies = new Definition('Sculpin\Contrib\Taxonomy\PermalinkStrategyCollection');
                 if (is_string($taxonomy)) {
                     $taxonomyName = $taxonomy;
                 } else {
                     $taxonomyName = $taxonomy['name'];
                     if (isset($taxonomy['strategies'])) {
                         foreach ($taxonomy['strategies'] as $strategy) {
-                            $permalinkStrategies->push(new $strategy());
+                            $permalinkStrategies->addMethodCall('push', [new Definition($strategy)]);
                         }
                     }
                 }
