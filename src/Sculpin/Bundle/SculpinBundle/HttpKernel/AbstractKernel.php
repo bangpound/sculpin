@@ -60,6 +60,7 @@ abstract class AbstractKernel extends Kernel
     {
         $bundles = array(
             new \Sculpin\Bundle\StandaloneBundle\SculpinStandaloneBundle,
+            new \Sculpin\Bundle\ComposerBundle\SculpinComposerBundle,
             new \Sculpin\Bundle\MarkdownBundle\SculpinMarkdownBundle,
             new \Sculpin\Bundle\TextileBundle\SculpinTextileBundle,
             new \Sculpin\Bundle\MarkdownTwigCompatBundle\SculpinMarkdownTwigCompatBundle,
