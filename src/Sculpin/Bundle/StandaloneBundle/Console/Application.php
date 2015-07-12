@@ -16,7 +16,7 @@ use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
 use Sculpin\Core\Sculpin;
 use Dflydev\EmbeddedComposer\Console\Command\DumpAutoloadCommand;
 use Dflydev\EmbeddedComposer\Console\Command\InstallCommand;
-use Sculpin\Bundle\SculpinBundle\Command\SelfUpdateCommand;
+use Sculpin\Bundle\StandaloneBundle\Command\SelfUpdateCommand;
 use Dflydev\EmbeddedComposer\Console\Command\UpdateCommand;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatter;

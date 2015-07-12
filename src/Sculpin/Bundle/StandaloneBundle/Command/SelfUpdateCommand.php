@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Bundle\SculpinBundle\Command;
+namespace Sculpin\Bundle\StandaloneBundle\Command;
 
 use Composer\Downloader\FilesystemException;
 use Sculpin\Bundle\StandaloneBundle\Command\ContainerAwareCommand;
