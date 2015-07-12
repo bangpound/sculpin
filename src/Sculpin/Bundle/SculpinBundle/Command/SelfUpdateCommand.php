@@ -12,7 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Composer\Downloader\FilesystemException;
-use Sculpin\Core\Console\Command\ContainerAwareCommand;
+use Sculpin\Bundle\StandaloneBundle\Command\ContainerAwareCommand;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

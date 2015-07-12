@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sculpin\Core\Console\Command;
+namespace Sculpin\Bundle\StandaloneBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
