@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
+use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,17 +22,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ServeCommand extends AbstractCommand
+class ServeCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
-
         $this
-            ->setName($prefix.'serve')
             ->setDescription('Serve a site.')
             ->setDefinition(array(
                 new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),

@@ -141,14 +141,22 @@
         </service>
 
         <service id="sculpin.command.generate" class="%sculpin.command.generate.class%">
+            <argument>sculpin:generate</argument>
             <tag name="console.command" />
         </service>
 
         <service id="sculpin.command.self_update" class="%sculpin.command.self_update.class%">
+            <argument>sculpin:self-update</argument>
+            <call method="setAliases">
+                <argument type="collection">
+                    <argument>sculpin:selfupdate</argument>
+                </argument>
+            </call>
             <tag name="console.command" />
         </service>
 
         <service id="sculpin.command.serve" class="%sculpin.command.serve.class%">
+            <argument>sculpin:serve</argument>
             <tag name="console.command" />
         </service>
     </services>
