@@ -6,7 +6,6 @@
         <parameter key="sculpin_standalone.command.cache_clear.class">Sculpin\Bundle\StandaloneBundle\Command\CacheClearCommand</parameter>
         <parameter key="sculpin_standalone.command.container_debug.class">Sculpin\Bundle\StandaloneBundle\Command\ContainerDebugCommand</parameter>
         <parameter key="sculpin_standalone.command.self_update.class">Sculpin\Bundle\StandaloneBundle\Command\SelfUpdateCommand</parameter>
-        <parameter key="sculpin.reporter.missing_bundles.class">Sculpin\Bundle\SculpinBundle\EventListener\ConsoleListener</parameter>
     </parameters>
     <services>
         <service id="sculpin_standalone.command.cache_clear" class="%sculpin_standalone.command.cache_clear.class%">

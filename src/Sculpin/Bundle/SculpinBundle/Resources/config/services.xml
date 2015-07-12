@@ -26,6 +26,8 @@
 
         <parameter key="sculpin.command.generate.class">Sculpin\Bundle\SculpinBundle\Command\GenerateCommand</parameter>
         <parameter key="sculpin.command.serve.class">Sculpin\Bundle\SculpinBundle\Command\ServeCommand</parameter>
+
+        <parameter key="sculpin.reporter.missing_bundles.class">Sculpin\Bundle\SculpinBundle\EventListener\ConsoleListener</parameter>
     </parameters>
 
     <services>
