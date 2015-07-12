@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Composer\Downloader\FilesystemException;
+use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Sculpin\Core\Sculpin;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Igor Wiedler <igor@wiedler.ch>
  */
-class SelfUpdateCommand extends AbstractCommand
+class SelfUpdateCommand extends ContainerAwareCommand
 {
     protected $message = '';
     private $commandPrefix;
@@ -29,10 +30,7 @@ class SelfUpdateCommand extends AbstractCommand
      */
     public function __construct($commandPrefix = 'sculpin:')
     {
-        $this->commandPrefix = $this->isStandaloneSculpin()
-            ? ''
-            : $commandPrefix;
-
+        $this->commandPrefix = $commandPrefix;
         parent::__construct();
     }
 

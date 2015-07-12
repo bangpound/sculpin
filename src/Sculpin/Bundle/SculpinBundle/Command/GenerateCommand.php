@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\SculpinBundle\Command;
 
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
+use Sculpin\Core\Console\Command\ContainerAwareCommand;
 use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,17 +24,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class GenerateCommand extends AbstractCommand
+class GenerateCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $prefix = $this->isStandaloneSculpin() ? '' : 'sculpin:';
-
         $this
-            ->setName($prefix.'generate')
             ->setDescription('Generate a site from source.')
             ->setDefinition(array(
                 new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
