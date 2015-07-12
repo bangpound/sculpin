@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="sculpin.command.dump_autoload.class">Dflydev\EmbeddedComposer\Console\Command\DumpAutoloadCommand</parameter>
+        <parameter key="sculpin.command.install.class">Dflydev\EmbeddedComposer\Console\Command\InstallCommand</parameter>
+        <parameter key="sculpin.command.update.class">Dflydev\EmbeddedComposer\Console\Command\UpdateCommand</parameter>
+    </parameters>
+    <services>
+        <service id="sculpin.command.dump_autoload" class="%sculpin.command.dump_autoload.class%">
+            <argument>sculpin:</argument>
+            <tag name="console.command" />
+        </service>
+
+        <service id="sculpin.command.install" class="%sculpin.command.install.class%">
+            <argument>sculpin:</argument>
+            <tag name="console.command" />
+        </service>
+
+        <service id="sculpin.command.update" class="%sculpin.command.update.class%">
+            <argument>sculpin:</argument>
+            <tag name="console.command" />
+        </service>
+    </services>
+</container>
