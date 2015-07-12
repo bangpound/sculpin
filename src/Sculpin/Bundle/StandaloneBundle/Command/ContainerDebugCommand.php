@@ -28,6 +28,7 @@
 
 namespace Sculpin\Bundle\StandaloneBundle\Command;
 
+use Sculpin\Bundle\SculpinBundle\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,7 +41,7 @@ use Symfony\Component\DependencyInjection\Definition;
  *
  * @author Ryan Weaver <ryan@thatsquality.com>
  */
-class ContainerDebugCommand extends ContainerAwareCommand
+class ContainerDebugCommand extends AbstractCommand
 {
     /**
      * {@inheritdoc}

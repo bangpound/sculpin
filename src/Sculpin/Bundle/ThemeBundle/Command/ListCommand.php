@@ -11,7 +11,7 @@
 
 namespace Sculpin\Bundle\ThemeBundle\Command;
 
-use Sculpin\Bundle\StandaloneBundle\Command\ContainerAwareCommand;
+use Sculpin\Bundle\SculpinBundle\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class ListCommand extends ContainerAwareCommand
+class ListCommand extends AbstractCommand
 {
     /**
      * {@inheritdoc}
