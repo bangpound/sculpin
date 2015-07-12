@@ -12,6 +12,7 @@
 namespace Sculpin\Bundle\StandaloneBundle\Console;
 
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposer;
+use Composer\Factory;
 use Dflydev\EmbeddedComposer\Core\EmbeddedComposerAwareInterface;
 use Sculpin\Core\Sculpin;
 use Dflydev\EmbeddedComposer\Console\Command\DumpAutoloadCommand;
@@ -20,7 +21,6 @@ use Sculpin\Bundle\StandaloneBundle\Command\SelfUpdateCommand;
 use Dflydev\EmbeddedComposer\Console\Command\UpdateCommand;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Formatter\OutputFormatter;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -83,10 +83,7 @@ class Application extends BaseApplication implements EmbeddedComposerAwareInterf
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
         if (null === $output) {
-            $styles = array(
-                'highlight' => new OutputFormatterStyle('red'),
-                'warning' => new OutputFormatterStyle('black', 'yellow'),
-            );
+            $styles = Factory::createAdditionalStyles();
             $formatter = new OutputFormatter(null, $styles);
             $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
         }
