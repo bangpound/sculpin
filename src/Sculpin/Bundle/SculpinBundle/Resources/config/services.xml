@@ -124,11 +124,17 @@
 
         <service id="sculpin.command.generate" class="%sculpin.command.generate.class%">
             <argument>sculpin:generate</argument>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
             <tag name="console.command" />
         </service>
 
         <service id="sculpin.command.serve" class="%sculpin.command.serve.class%">
             <argument>sculpin:serve</argument>
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
             <tag name="console.command" />
         </service>
     </services>
