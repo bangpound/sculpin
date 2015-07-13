@@ -28,7 +28,7 @@
 
     <services>
 
-        <service id="sculpin.matcher" class="%sculpin.matcher.class%" />
+        <service id="sculpin.matcher" class="%sculpin.matcher.class%" public="false" />
 
         <service id="sculpin.site_configuration_factory" class="%sculpin.site_configuration_factory.class%">
             <argument>%kernel.root_dir%</argument>
@@ -37,18 +37,18 @@
 
         <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%" factory-service="sculpin.site_configuration_factory" factory-method="create" />
 
-        <service id="sculpin.source_permalink_factory" class="%sculpin.source_permalink_factory.class%">
+        <service id="sculpin.source_permalink_factory" class="%sculpin.source_permalink_factory.class%" public="false">
             <argument>%sculpin.permalink%</argument>
         </service>
 
-        <service id="sculpin.writer" class="%sculpin.writer.class%">
+        <service id="sculpin.writer" class="%sculpin.writer.class%" public="false">
             <argument type="service" id="filesystem" />
             <argument>%sculpin.output_dir%</argument>
         </service>
 
-        <service id="sculpin.data_provider_manager" class="%sculpin.data_provider_manager.class%" />
+        <service id="sculpin.data_provider_manager" class="%sculpin.data_provider_manager.class%" public="false" />
 
-        <service id="sculpin.generator_manager" class="%sculpin.generator_manager.class%">
+        <service id="sculpin.generator_manager" class="%sculpin.generator_manager.class%" public="false">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.site_configuration" />
             <call method="setDataProviderManager">
@@ -56,7 +56,7 @@
             </call>
         </service>
 
-        <service id="sculpin.formatter_manager" class="%sculpin.formatter_manager.class%">
+        <service id="sculpin.formatter_manager" class="%sculpin.formatter_manager.class%" public="false">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.site_configuration" />
             <call method="setDataProviderManager">
@@ -64,7 +64,7 @@
             </call>
         </service>
 
-        <service id="sculpin.converter_manager" class="%sculpin.converter_manager.class%">
+        <service id="sculpin.converter_manager" class="%sculpin.converter_manager.class%" public="false">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="sculpin.formatter_manager" />
         </service>
@@ -79,26 +79,26 @@
             <argument type="service" id="sculpin.converter_manager" />
         </service>
 
-        <service id="sculpin.finder_factory" class="%sculpin.finder_factory.class%" />
+        <service id="sculpin.finder_factory" class="%sculpin.finder_factory.class%" public="false" />
 
-        <service id="sculpin.canal.custom_detector" class="Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector">
+        <service id="sculpin.canal.custom_detector" class="Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector" public="false">
             <argument type="service" id="sculpin.custom_mime_types_repository" />
         </service>
 
-        <service id="sculpin.canal.default_detector" class="Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector" />
+        <service id="sculpin.canal.default_detector" class="Dflydev\Canal\Detector\ApacheMimeTypesExtensionDetector" public="false" />
 
-        <service id="sculpin.canal.detector" class="Dflydev\Canal\Detector\CompositeDetector">
+        <service id="sculpin.canal.detector" class="Dflydev\Canal\Detector\CompositeDetector" public="false">
             <argument type="collection">
                 <argument type="service" id="sculpin.canal.custom_detector" />
                 <argument type="service" id="sculpin.canal.default_detector" />
             </argument>
         </service>
 
-        <service id="sculpin.canal.analyzer" class="Dflydev\Canal\Analyzer\Analyzer">
+        <service id="sculpin.canal.analyzer" class="Dflydev\Canal\Analyzer\Analyzer" public="false">
             <argument type="service" id="sculpin.canal.detector" />
         </service>
 
-        <service id="sculpin.default_filesystem_data_source" class="%sculpin.default_filesystem_data_source.class%">
+        <service id="sculpin.default_filesystem_data_source" class="%sculpin.default_filesystem_data_source.class%" public="false">
             <argument>%sculpin.source_dir%</argument>
             <argument>%sculpin.exclude%</argument>
             <argument>%sculpin.ignore%</argument>
@@ -109,7 +109,7 @@
             <tag name="sculpin.data_source" />
         </service>
 
-        <service id="sculpin.default_config_filesystem_data_source" class="%sculpin.default_config_filesystem_data_source.class%">
+        <service id="sculpin.default_config_filesystem_data_source" class="%sculpin.default_config_filesystem_data_source.class%" public="false">
             <argument>%kernel.root_dir%/config</argument>
             <argument type="service" id="sculpin.site_configuration" />
             <argument type="service" id="sculpin.site_configuration_factory" />
@@ -120,7 +120,7 @@
 
         <service id="sculpin.data_source" class="%sculpin.data_source.class%" />
 
-        <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" />
+        <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" public="false" />
 
         <service id="sculpin.command.generate" class="%sculpin.command.generate.class%">
             <argument>sculpin:generate</argument>

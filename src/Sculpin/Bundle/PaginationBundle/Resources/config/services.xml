@@ -9,7 +9,7 @@
 
     <services>
 
-        <service id="sculpin_pagination.generator" class="%sculpin_pagination.generator.class%">
+        <service id="sculpin_pagination.generator" class="%sculpin_pagination.generator.class%" public="false">
             <argument type="service" id="sculpin.data_provider_manager" />
             <argument>%sculpin_pagination.max_per_page%</argument>
             <tag name="sculpin.generator" alias="pagination" />

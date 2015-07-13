@@ -26,11 +26,11 @@
             <tag name="sculpin.custom_mime_extensions" type="text/twig" parameter="sculpin_twig.extensions" />
         </service>
 
-        <service id="sculpin_twig.array_loader" class="%sculpin_twig.array_loader.class%">
+        <service id="sculpin_twig.array_loader" class="%sculpin_twig.array_loader.class%" public="false">
             <argument type="collection" />
         </service>
 
-        <service id="sculpin_twig.loader" class="%sculpin_twig.loader.class%">
+        <service id="sculpin_twig.loader" class="%sculpin_twig.loader.class%" public="false">
             <argument type="collection">
                 <argument type="service" id="sculpin_twig.array_loader" />
                 <argument type="service" id="sculpin_twig.flexible_extension_filesystem_loader" />
@@ -44,7 +44,7 @@
             </argument>
         </service>
 
-        <service id="sculpin_twig.formatter" class="%sculpin_twig.formatter.class%">
+        <service id="sculpin_twig.formatter" class="%sculpin_twig.formatter.class%" public="false">
             <argument type="service" id="sculpin_twig.twig" />
             <argument type="service" id="sculpin_twig.array_loader" />
             <tag name="sculpin.formatter" alias="twig" />
@@ -59,7 +59,7 @@
             <tag name="twig.extension" />
         </service>
 
-        <service id="sculpin_twig.extensions.intl" class="%sculpin_twig.extensions.intl.class%">
+        <service id="sculpin_twig.extensions.intl" class="%sculpin_twig.extensions.intl.class%" public="false">
             <tag name="twig.extension" />
         </service>
 

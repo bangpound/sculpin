@@ -9,7 +9,7 @@
 
     <services>
 
-        <service id="sculpin_markdown.parser" class="%sculpin_markdown.parser.class%" />
+        <service id="sculpin_markdown.parser" class="%sculpin_markdown.parser.class%" public="false" />
 
         <service id="sculpin_markdown.converter" class="%sculpin_markdown.converter.class%">
             <argument type="service" id="sculpin_markdown.parser" />

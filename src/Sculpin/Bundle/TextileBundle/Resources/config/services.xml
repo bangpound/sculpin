@@ -8,7 +8,7 @@
     </parameters>
 
     <services>
-        <service id="sculpin_textile.parser" class="%sculpin_textile.parser.class%" />
+        <service id="sculpin_textile.parser" class="%sculpin_textile.parser.class%" public="false"/>
 
         <service id="sculpin_textile.converter" class="%sculpin_textile.converter.class%">
             <argument type="service" id="sculpin_textile.parser" />
