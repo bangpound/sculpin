@@ -22,6 +22,7 @@ use Sculpin\Core\Output\SourceOutput;
 use Sculpin\Core\Output\WriterInterface;
 use Sculpin\Core\Permalink\SourcePermalinkFactoryInterface;
 use Sculpin\Core\Source\DataSourceInterface;
+use Sculpin\Core\Source\SourceInterface;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -147,7 +148,7 @@ class Sculpin
 
         $this->eventDispatcher->dispatch(self::EVENT_BEFORE_RUN, new SourceSetEvent($sourceSet));
 
-        if ($updatedSources = array_filter($sourceSet->updatedSources(), function ($source) {
+        if ($updatedSources = array_filter($sourceSet->updatedSources(), function (SourceInterface $source) {
             return !$source->isGenerated();
         })) {
             if (!$found) {
@@ -161,6 +162,8 @@ class Sculpin
             $io->write('', false);
             $counter = 0;
             $timer = microtime(true);
+
+            /** @var SourceInterface $source */
             foreach ($updatedSources as $source) {
                 $this->generatorManager->generate($source, $sourceSet);
                 $io->overwrite(sprintf("%3d%%", 100*((++$counter)/$total)), false);
@@ -168,6 +171,7 @@ class Sculpin
             $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
         }
 
+        /** @var SourceInterface $source */
         foreach ($sourceSet->updatedSources() as $source) {
             $permalink = $this->permalinkFactory->create($source);
             $source->setPermalink($permalink);
@@ -186,6 +190,8 @@ class Sculpin
             $io->write('', false);
             $counter = 0;
             $timer = microtime(true);
+
+            /** @var SourceInterface $source */
             foreach ($updatedSources as $source) {
                 $this->converterManager->convertSource($source);
 
@@ -209,6 +215,8 @@ class Sculpin
             $io->write('', false);
             $counter = 0;
             $timer = microtime(true);
+
+            /** @var SourceInterface $source */
             foreach ($updatedSources as $source) {
                 if ($source->canBeFormatted()) {
                     $source->setFormattedContent($this->formatterManager->formatSourcePage($source));
@@ -221,6 +229,7 @@ class Sculpin
             $io->write(sprintf(" (%d sources / %4.2f seconds)", $total, microtime(true) - $timer));
         }
 
+        /** @var SourceInterface $source */
         foreach ($sourceSet->updatedSources() as $source) {
             if ($source->isGenerator() || $source->shouldBeSkipped()) {
                 continue;
