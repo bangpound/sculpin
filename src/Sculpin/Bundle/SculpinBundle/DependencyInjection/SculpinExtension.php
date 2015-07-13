@@ -37,10 +37,5 @@ class SculpinExtension extends Extension
         foreach (array('source_dir', 'output_dir', 'exclude', 'ignore', 'raw', 'permalink') as $key) {
             $container->setParameter('sculpin.'.$key, $config[$key]);
         }
-
-        $path = realpath($container->getParameterBag()->resolveValue('%sculpin.source_dir%'));
-
-        $resource = new DirectoryResource($path);
-        $container->addResource($resource);
     }
 }
