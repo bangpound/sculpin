@@ -35,12 +35,12 @@ class SculpinExtension extends Extension
         $loader->load('services.xml');
 
         foreach (array('source_dir', 'output_dir', 'exclude', 'ignore', 'raw', 'permalink') as $key) {
-            $this->setSculpinParameter($container, $config, $key);
+            $container->setParameter('sculpin.'.$key, $config[$key]);
         }
-    }
 
-    protected function setSculpinParameter(ContainerBuilder $container, array $config, $key)
-    {
-        $container->setParameter('sculpin.'.$key, $config[$key]);
+        $path = realpath($container->getParameterBag()->resolveValue('%sculpin.source_dir%'));
+
+        $resource = new DirectoryResource($path);
+        $container->addResource($resource);
     }
 }
