@@ -30,7 +30,7 @@
 
         <service id="sculpin.matcher" class="%sculpin.matcher.class%" public="false" />
 
-        <service id="sculpin.site_configuration_factory" class="%sculpin.site_configuration_factory.class%" public="false">
+        <service id="sculpin.site_configuration_factory" class="%sculpin.site_configuration_factory.class%">
             <argument>%kernel.root_dir%</argument>
             <argument>%kernel.environment%</argument>
         </service>
