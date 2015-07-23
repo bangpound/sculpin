@@ -59,6 +59,7 @@ EOT
             $input->getOption('port')
         );
 
+        $httpServer->setContainer($this->getContainer());
         $httpServer->setLogger(new ConsoleLogger($output));
 
         $httpServer->run();
