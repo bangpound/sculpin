@@ -14,6 +14,7 @@ namespace Sculpin\Bundle\SculpinBundle\Command;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -52,12 +53,13 @@ EOT
         $kernel = $this->getContainer()->get('kernel');
 
         $httpServer = new HttpServer(
-            $output,
             $docroot,
             $kernel->getEnvironment(),
             $kernel->isDebug(),
             $input->getOption('port')
         );
+
+        $httpServer->setLogger(new ConsoleLogger($output));
 
         $httpServer->run();
     }
