@@ -127,7 +127,7 @@ class HttpServer implements LoggerAwareInterface, ContainerAwareInterface
             $type = 'application/octet-stream';
 
             if ('' !== $extension = pathinfo($path, PATHINFO_EXTENSION)) {
-                if ($guessedType = $repository->findType($extension)) {
+                if ($guessedType = $this->repository->findType($extension)) {
                     $type = $guessedType;
                 }
             }
