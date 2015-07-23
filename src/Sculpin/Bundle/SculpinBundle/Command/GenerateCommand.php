@@ -42,7 +42,7 @@ class GenerateCommand extends AbstractCommand
                 new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
                 new InputOption('server', null, InputOption::VALUE_NONE, 'Start an HTTP server to host your generated site'),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
+                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port', 8000),
             ))
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.
