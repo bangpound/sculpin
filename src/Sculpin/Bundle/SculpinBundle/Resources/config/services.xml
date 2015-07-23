@@ -19,6 +19,10 @@
         <parameter key="sculpin.source_permalink_factory.class">Sculpin\Core\Permalink\SourcePermalinkFactory</parameter>
         <parameter key="sculpin.finder_factory.class">Dflydev\Symfony\FinderFactory\FinderFactory</parameter>
         <parameter key="sculpin.configuration.path_configurator.class">Sculpin\Bundle\SculpinBundle\Sculpin\Configuration\PathConfigurator</parameter>
+
+        <parameter key="sculpin.server.socket.class">React\Socket\Server</parameter>
+        <parameter key="sculpin.server.http.class">React\Http\Server</parameter>
+        <parameter key="sculpin.event_loop.factory.class">React\EventLoop\Factory</parameter>
     </parameters>
 
     <services>
@@ -117,5 +121,17 @@
 
         <service id="sculpin.custom_mime_types_repository" class="Dflydev\ApacheMimeTypes\ArrayRepository" />
 
+        <service id="sculpin.event_loop"
+                 class="React\EventLoop\LoopInterface"
+                 factory-class="%sculpin.event_loop.factory.class%"
+                 factory-method="create"/>
+
+        <service id="sculpin.server.socket" class="%sculpin.server.socket.class%">
+            <argument type="service" id="sculpin.event_loop" />
+        </service>
+
+        <service id="sculpin.server.http" class="%sculpin.server.http.class%">
+            <argument type="service" id="sculpin.server.socket" />
+        </service>
     </services>
 </container>

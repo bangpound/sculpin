@@ -12,24 +12,28 @@
 namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
 use Dflydev\ApacheMimeTypes\PhpRepository;
-use React\EventLoop\StreamSelectLoop;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use React\Http\Request;
-use React\Http\Server as ReactHttpServer;
-use React\Socket\Server as ReactSocketServer;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * HTTP Server
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class HttpServer implements LoggerAwareInterface
+class HttpServer implements LoggerAwareInterface, ContainerAwareInterface
 {
     /**
      * @var LoggerInterface
      */
     private $logger;
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
     /**
      * Constructor
@@ -51,9 +55,9 @@ class HttpServer implements LoggerAwareInterface
         $this->debug = $debug;
         $this->port = $port;
 
-        $this->loop = new StreamSelectLoop;
-        $socketServer = new ReactSocketServer($this->loop);
-        $httpServer = new ReactHttpServer($socketServer);
+        $this->loop = $this->container->get('sculpin.event_loop');
+        $socketServer = $this->container->get('sculpin.server.socket');
+        $httpServer = $this->container->get('sculpin.server.http');
         $httpServer->on("request", function ($request, $response) use ($repository, $docroot, $output) {
             $path = $docroot.'/'.ltrim(rawurldecode($request->getPath()), '/');
             if (is_dir($path)) {
@@ -133,5 +137,17 @@ class HttpServer implements LoggerAwareInterface
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
+    }
+
+    /**
+     * Sets the Container.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     *
+     * @api
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
     }
 }
