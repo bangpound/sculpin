@@ -94,17 +94,6 @@ class HttpServer implements LoggerAwareInterface
     }
 
     /**
-     * Add a periodic timer
-     *
-     * @param int      $interval Interval
-     * @param callable $callback Callback
-     */
-    public function addPeriodicTimer($interval, $callback)
-    {
-        $this->loop->addPeriodicTimer($interval, $callback);
-    }
-
-    /**
      * Run server
      */
     public function run()
