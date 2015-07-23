@@ -60,7 +60,7 @@ class HttpServer implements LoggerAwareInterface
                 $path .= '/index.html';
             }
             if (!file_exists($path)) {
-                HttpServer::logRequest($output, 404, $request);
+                $this->logRequest(404, $request);
                 $response->writeHead(404, [
                     'Content-Type' => 'text/html',
                 ]);
@@ -82,7 +82,7 @@ class HttpServer implements LoggerAwareInterface
                 }
             }
 
-            HttpServer::logRequest($output, 200, $request);
+            $this->logRequest(200, $request);
 
             $response->writeHead(200, array(
                 "Content-Type" => $type,
@@ -128,10 +128,7 @@ class HttpServer implements LoggerAwareInterface
     {
         $wrapOpen = '';
         $wrapClose = '';
-        if ($responseCode < 400) {
-            $wrapOpen = '';
-            $wrapClose = '';
-        } elseif ($responseCode >= 400) {
+        if ($responseCode >= 400) {
             $wrapOpen = '<comment>';
             $wrapClose = '</comment>';
         }
