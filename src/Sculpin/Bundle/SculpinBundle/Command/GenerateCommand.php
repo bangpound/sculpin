@@ -16,6 +16,7 @@ use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
@@ -82,12 +83,13 @@ EOT
             $kernel = $this->getContainer()->get('kernel');
 
             $httpServer = new HttpServer(
-                $output,
                 $docroot,
                 $kernel->getEnvironment(),
                 $kernel->isDebug(),
                 $input->getOption('port')
             );
+
+            $httpServer->setLogger(new ConsoleLogger($output));
 
             if ($watch) {
                 $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {

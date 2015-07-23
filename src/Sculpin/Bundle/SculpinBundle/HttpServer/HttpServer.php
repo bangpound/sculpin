@@ -13,28 +13,33 @@ namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
 use Dflydev\ApacheMimeTypes\PhpRepository;
 use React\EventLoop\StreamSelectLoop;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use React\Http\Request;
 use React\Http\Server as ReactHttpServer;
 use React\Socket\Server as ReactSocketServer;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * HTTP Server
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class HttpServer
+class HttpServer implements LoggerAwareInterface
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     /**
      * Constructor
      *
-     * @param OutputInterface $output  Output
      * @param string          $docroot Docroot
      * @param string          $env     Environment
      * @param bool            $debug   Debug
      * @param int             $port    Port
      */
-    public function __construct(OutputInterface $output, $docroot, $env, $debug, $port = null)
+    public function __construct($docroot, $env, $debug, $port = null)
     {
         $repository = new PhpRepository;
 
@@ -42,7 +47,6 @@ class HttpServer
             $port = 8000;
         }
 
-        $this->output = $output;
         $this->env = $env;
         $this->debug = $debug;
         $this->port = $port;
@@ -105,9 +109,11 @@ class HttpServer
      */
     public function run()
     {
-        $this->output->writeln(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $this->env, var_export($this->debug, true)));
-        $this->output->writeln(sprintf('Development server is running at <info>http://%s:%s</info>', 'localhost', $this->port));
-        $this->output->writeln('Quit the server with CONTROL-C.');
+
+
+        $this->logger->alert(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $this->env, var_export($this->debug, true)));
+        $this->logger->alert(sprintf('Development server is running at <info>http://%s:%s</info>', 'localhost', $this->port));
+        $this->logger->alert('Quit the server with CONTROL-C.');
 
         $this->loop->run();
     }
@@ -115,11 +121,10 @@ class HttpServer
     /**
      * Log a request
      *
-     * @param OutputInterface $output       Output
      * @param string          $responseCode Response code
      * @param Request         $request      Request
      */
-    public static function logRequest(OutputInterface $output, $responseCode, Request $request)
+    public function logRequest($responseCode, Request $request)
     {
         $wrapOpen = '';
         $wrapClose = '';
@@ -130,6 +135,17 @@ class HttpServer
             $wrapOpen = '<comment>';
             $wrapClose = '</comment>';
         }
-        $output->writeln($wrapOpen.sprintf('[%s] "%s %s HTTP/%s" %s', date("d/M/Y H:i:s"), $request->getMethod(), $request->getPath(), $request->getHttpVersion(), $responseCode).$wrapClose);
+        $this->logger->info($wrapOpen.sprintf('[%s] "%s %s HTTP/%s" %s', date('d/M/Y H:i:s'), $request->getMethod(), $request->getPath(), $request->getHttpVersion(), $responseCode).$wrapClose);
+    }
+
+    /**
+     * Sets a logger instance on the object.
+     *
+     * @param LoggerInterface $logger
+     * @return null|void
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 }
