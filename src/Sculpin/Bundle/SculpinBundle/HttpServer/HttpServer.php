@@ -75,8 +75,15 @@ class HttpServer implements LoggerAwareInterface, ContainerAwareInterface
         $this->env = $env;
         $this->debug = $debug;
         $this->port = $port;
+    }
 
-        $this->loop = $this->container->get('sculpin.event_loop');
+    /**
+     * Run server
+     */
+    public function run()
+    {
+
+        $loop = $this->container->get('sculpin.event.loop');
         $socketServer = $this->container->get('sculpin.server.socket');
         $httpServer = $this->container->get('sculpin.server.http');
         $httpServer->on("request", function ($request, $response) use ($repository, $docroot, $output) {
@@ -115,21 +122,13 @@ class HttpServer implements LoggerAwareInterface, ContainerAwareInterface
             $response->end(file_get_contents($path));
         });
 
-        $socketServer->listen($port, '0.0.0.0');
-    }
-
-    /**
-     * Run server
-     */
-    public function run()
-    {
-
+        $socketServer->listen($this->port, '0.0.0.0');
 
         $this->logger->alert(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $this->env, var_export($this->debug, true)));
         $this->logger->alert(sprintf('Development server is running at <info>http://%s:%s</info>', 'localhost', $this->port));
         $this->logger->alert('Quit the server with CONTROL-C.');
 
-        $this->loop->run();
+        $loop->run();
     }
 
     /**
