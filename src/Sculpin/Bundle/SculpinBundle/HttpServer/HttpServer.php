@@ -31,9 +31,34 @@ class HttpServer implements LoggerAwareInterface, ContainerAwareInterface
     private $logger;
 
     /**
+     * @var string
+     */
+    private $docroot;
+
+    /**
+     * @var string
+     */
+    private $env;
+
+    /**
+     * @var bool
+     */
+    private $debug;
+
+    /**
+     * @var int
+     */
+    private $port;
+
+    /**
      * @var ContainerInterface
      */
     private $container;
+
+    /**
+     * @var PhpRepository
+     */
+    private $repository;
 
     /**
      * Constructor
@@ -43,14 +68,10 @@ class HttpServer implements LoggerAwareInterface, ContainerAwareInterface
      * @param bool            $debug   Debug
      * @param int             $port    Port
      */
-    public function __construct($docroot, $env, $debug, $port = null)
+    public function __construct($docroot, $env, $debug, $port = 8000)
     {
-        $repository = new PhpRepository;
-
-        if (!$port) {
-            $port = 8000;
-        }
-
+        $this->repository = new PhpRepository();
+        $this->docroot = $docroot;
         $this->env = $env;
         $this->debug = $debug;
         $this->port = $port;
