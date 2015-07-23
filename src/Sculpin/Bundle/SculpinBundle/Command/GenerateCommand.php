@@ -16,7 +16,9 @@ use Sculpin\Core\Io\ConsoleIo;
 use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Generate Command.
@@ -36,7 +38,7 @@ class GenerateCommand extends AbstractCommand
                 new InputOption('watch', null, InputOption::VALUE_NONE, 'Watch source and regenerate site as changes are made.'),
                 new InputOption('server', null, InputOption::VALUE_NONE, 'Start an HTTP server to host your generated site'),
                 new InputOption('url', null, InputOption::VALUE_REQUIRED, 'Override URL.'),
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
+                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port', 8000),
             ))
             ->setHelp(<<<EOT
 The <info>generate</info> command generates a site.
@@ -66,18 +68,21 @@ EOT
             $sculpin->run($dataSource, $sourceSet, $consoleIo);
 
             $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
+            /** @var KernelInterface $kernel */
             $kernel = $this->getContainer()->get('kernel');
 
             $httpServer = new HttpServer(
-                $output,
                 $docroot,
                 $kernel->getEnvironment(),
                 $kernel->isDebug(),
                 $input->getOption('port')
             );
 
+            $httpServer->setContainer($this->getContainer());
+            $httpServer->setLogger(new ConsoleLogger($output));
+
             if ($watch) {
-                $httpServer->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
+                $this->getContainer()->get('sculpin.event.loop')->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
                     clearstatcache();
                     $sourceSet->reset();
 

@@ -14,6 +14,7 @@ namespace Sculpin\Bundle\SculpinBundle\Command;
 use Sculpin\Bundle\SculpinBundle\HttpServer\HttpServer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -31,7 +32,7 @@ class ServeCommand extends AbstractCommand
         $this
             ->setDescription('Serve a site.')
             ->setDefinition(array(
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
+                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port', 8000),
             ))
             ->setHelp(<<<EOT
 The <info>serve</info> command serves a site.
@@ -49,12 +50,14 @@ EOT
         $kernel = $this->getContainer()->get('kernel');
 
         $httpServer = new HttpServer(
-            $output,
             $docroot,
             $kernel->getEnvironment(),
             $kernel->isDebug(),
             $input->getOption('port')
         );
+
+        $httpServer->setContainer($this->getContainer());
+        $httpServer->setLogger(new ConsoleLogger($output));
 
         $httpServer->run();
     }

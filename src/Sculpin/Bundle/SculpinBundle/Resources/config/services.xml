@@ -24,6 +24,10 @@
         <parameter key="sculpin.command.serve.class">Sculpin\Bundle\SculpinBundle\Command\ServeCommand</parameter>
 
         <parameter key="sculpin.reporter.missing_bundles.class">Sculpin\Bundle\SculpinBundle\EventListener\ConsoleListener</parameter>
+
+        <parameter key="sculpin.server.socket.class">React\Socket\Server</parameter>
+        <parameter key="sculpin.server.http.class">React\Http\Server</parameter>
+        <parameter key="sculpin.event_loop.factory.class">React\EventLoop\Factory</parameter>
     </parameters>
 
     <services>
@@ -136,6 +140,19 @@
                 <argument type="service" id="service_container" />
             </call>
             <tag name="console.command" />
+        </service>
+
+        <service id="sculpin.event_loop"
+                 class="React\EventLoop\LoopInterface"
+                 factory-class="%sculpin.event_loop.factory.class%"
+                 factory-method="create"/>
+
+        <service id="sculpin.server.socket" class="%sculpin.server.socket.class%">
+            <argument type="service" id="sculpin.event_loop" />
+        </service>
+
+        <service id="sculpin.server.http" class="%sculpin.server.http.class%">
+            <argument type="service" id="sculpin.server.socket" />
         </service>
     </services>
 </container>

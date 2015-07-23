@@ -12,51 +12,105 @@
 namespace Sculpin\Bundle\SculpinBundle\HttpServer;
 
 use Dflydev\ApacheMimeTypes\PhpRepository;
-use React\EventLoop\StreamSelectLoop;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use React\Http\Request;
-use React\Http\Server as ReactHttpServer;
-use React\Socket\Server as ReactSocketServer;
-use Symfony\Component\Console\Output\OutputInterface;
+use React\Http\Response;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * HTTP Server
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class HttpServer
+class HttpServer implements LoggerAwareInterface, ContainerAwareInterface
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @var string
+     */
+    private $docroot;
+
+    /**
+     * @var string
+     */
+    private $env;
+
+    /**
+     * @var bool
+     */
+    private $debug;
+
+    /**
+     * @var int
+     */
+    private $port;
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @var PhpRepository
+     */
+    private $repository;
+
     /**
      * Constructor
      *
-     * @param OutputInterface $output  Output
      * @param string          $docroot Docroot
      * @param string          $env     Environment
      * @param bool            $debug   Debug
      * @param int             $port    Port
      */
-    public function __construct(OutputInterface $output, $docroot, $env, $debug, $port = null)
+    public function __construct($docroot, $env, $debug, $port = 8000)
     {
-        $repository = new PhpRepository;
-
-        if (!$port) {
-            $port = 8000;
-        }
-
-        $this->output = $output;
+        $this->repository = new PhpRepository();
+        $this->docroot = $docroot;
         $this->env = $env;
         $this->debug = $debug;
         $this->port = $port;
+    }
 
-        $this->loop = new StreamSelectLoop;
-        $socketServer = new ReactSocketServer($this->loop);
-        $httpServer = new ReactHttpServer($socketServer);
-        $httpServer->on("request", function ($request, $response) use ($repository, $docroot, $output) {
-            $path = $docroot.'/'.ltrim(rawurldecode($request->getPath()), '/');
+    /**
+     * Run server
+     */
+    public function run()
+    {
+
+        $loop = $this->container->get('sculpin.event.loop');
+        $socketServer = $this->container->get('sculpin.server.socket');
+        $httpServer = $this->container->get('sculpin.server.http');
+        $httpServer->on('request', $this->requestListenerFactory());
+
+        $socketServer->listen($this->port, '0.0.0.0');
+
+        $this->logger->alert(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $this->env, var_export($this->debug, true)));
+        $this->logger->alert(sprintf('Development server is running at <info>http://%s:%s</info>', 'localhost', $this->port));
+        $this->logger->alert('Quit the server with CONTROL-C.');
+
+        $loop->run();
+    }
+
+    /**
+     * @return \Closure
+     * @throws \Exception
+     */
+    private function requestListenerFactory()
+    {
+        return function (Request $request, Response $response) {
+            $path = $this->docroot.'/'.ltrim(rawurldecode($request->getPath()), '/');
             if (is_dir($path)) {
                 $path .= '/index.html';
             }
             if (!file_exists($path)) {
-                HttpServer::logRequest($output, 404, $request);
+                $this->logRequest(404, $request);
                 $response->writeHead(404, [
                     'Content-Type' => 'text/html',
                 ]);
@@ -78,58 +132,52 @@ class HttpServer
                 }
             }
 
-            HttpServer::logRequest($output, 200, $request);
+            $this->logRequest(200, $request);
 
             $response->writeHead(200, array(
                 "Content-Type" => $type,
             ));
             $response->end(file_get_contents($path));
-        });
-
-        $socketServer->listen($port, '0.0.0.0');
-    }
-
-    /**
-     * Add a periodic timer
-     *
-     * @param int      $interval Interval
-     * @param callable $callback Callback
-     */
-    public function addPeriodicTimer($interval, $callback)
-    {
-        $this->loop->addPeriodicTimer($interval, $callback);
-    }
-
-    /**
-     * Run server
-     */
-    public function run()
-    {
-        $this->output->writeln(sprintf('Starting Sculpin server for the <info>%s</info> environment with debug <info>%s</info>', $this->env, var_export($this->debug, true)));
-        $this->output->writeln(sprintf('Development server is running at <info>http://%s:%s</info>', 'localhost', $this->port));
-        $this->output->writeln('Quit the server with CONTROL-C.');
-
-        $this->loop->run();
+        };
     }
 
     /**
      * Log a request
      *
-     * @param OutputInterface $output       Output
      * @param string          $responseCode Response code
      * @param Request         $request      Request
      */
-    public static function logRequest(OutputInterface $output, $responseCode, Request $request)
+    public function logRequest($responseCode, Request $request)
     {
         $wrapOpen = '';
         $wrapClose = '';
-        if ($responseCode < 400) {
-            $wrapOpen = '';
-            $wrapClose = '';
-        } elseif ($responseCode >= 400) {
+        if ($responseCode >= 400) {
             $wrapOpen = '<comment>';
             $wrapClose = '</comment>';
         }
-        $output->writeln($wrapOpen.sprintf('[%s] "%s %s HTTP/%s" %s', date("d/M/Y H:i:s"), $request->getMethod(), $request->getPath(), $request->getHttpVersion(), $responseCode).$wrapClose);
+        $this->logger->info($wrapOpen.sprintf('[%s] "%s %s HTTP/%s" %s', date('d/M/Y H:i:s'), $request->getMethod(), $request->getPath(), $request->getHttpVersion(), $responseCode).$wrapClose);
+    }
+
+    /**
+     * Sets a logger instance on the object.
+     *
+     * @param LoggerInterface $logger
+     * @return null|void
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * Sets the Container.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     *
+     * @api
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
     }
 }
