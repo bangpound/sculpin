@@ -82,7 +82,7 @@ EOT
             $httpServer->setLogger(new ConsoleLogger($output));
 
             if ($watch) {
-                $this->getContainer()->get('sculpin.event.loop')->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
+                $this->getContainer()->get('sculpin.event_loop')->addPeriodicTimer(1, function () use ($sculpin, $dataSource, $sourceSet, $consoleIo) {
                     clearstatcache();
                     $sourceSet->reset();
 

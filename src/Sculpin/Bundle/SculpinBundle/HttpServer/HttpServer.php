@@ -84,7 +84,7 @@ class HttpServer implements LoggerAwareInterface, ContainerAwareInterface
     public function run()
     {
 
-        $loop = $this->container->get('sculpin.event.loop');
+        $loop = $this->container->get('sculpin.event_loop');
         $socketServer = $this->container->get('sculpin.server.socket');
         $httpServer = $this->container->get('sculpin.server.http');
         $httpServer->on('request', $this->requestListenerFactory());
