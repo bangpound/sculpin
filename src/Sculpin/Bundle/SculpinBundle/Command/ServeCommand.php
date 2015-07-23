@@ -35,7 +35,7 @@ class ServeCommand extends AbstractCommand
             ->setName($prefix.'serve')
             ->setDescription('Serve a site.')
             ->setDefinition(array(
-                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port'),
+                new InputOption('port', null, InputOption::VALUE_REQUIRED, 'Port', 8000),
             ))
             ->setHelp(<<<EOT
 The <info>serve</info> command serves a site.
