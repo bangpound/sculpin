@@ -17,6 +17,7 @@ use Sculpin\Core\Source\SourceSet;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Generate Command.
@@ -73,6 +74,7 @@ EOT
             $sculpin->run($dataSource, $sourceSet, $consoleIo);
 
             $docroot = $this->getContainer()->getParameter('sculpin.output_dir');
+            /** @var KernelInterface $kernel */
             $kernel = $this->getContainer()->get('kernel');
 
             $httpServer = new HttpServer(
