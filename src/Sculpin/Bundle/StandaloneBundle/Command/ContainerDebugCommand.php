@@ -191,9 +191,9 @@ EOF
                     continue;
                 }
 
-                if (strlen($definition->getScope()) > $maxScope) {
-                    $maxScope = strlen($definition->getScope());
-                }
+//                if (strlen($definition->getScope()) > $maxScope) {
+//                    $maxScope = strlen($definition->getScope());
+//                }
 
                 if (null !== $showTagAttributes) {
                     $tags = $definition->getTag($showTagAttributes);
@@ -216,18 +216,16 @@ EOF
         }
         $format = '%-'.$maxName.'s ';
         $format .= implode("", array_map(function ($length) { return "%-{$length}s "; }, $maxTags));
-        $format .= '%-'.$maxScope.'s %s';
 
         // the title field needs extra space to make up for comment tags
         $format1 = '%-'.($maxName + 19).'s ';
         $format1 .= implode("", array_map(function ($length) { return '%-'.($length + 19).'s '; }, $maxTags));
-        $format1 .= '%-'.($maxScope + 19).'s %s';
 
         $tags = array();
         foreach ($maxTags as $tagName => $length) {
             $tags[] = '<comment>'.$tagName.'</comment>';
         }
-        $output->writeln(vsprintf($format1, $this->buildArgumentsArray('<comment>Service Id</comment>', '<comment>Scope</comment>', '<comment>Class Name</comment>', $tags)));
+        $output->writeln(vsprintf($format1, $this->buildArgumentsArray('<comment>Service Id</comment>', '<comment>Class Name</comment>', $tags)));
 
         foreach ($serviceIds as $serviceId) {
             $definition = $this->resolveServiceDefinition($serviceId);
@@ -241,13 +239,13 @@ EOF
                             $tagValues[] = isset($tag[$tagName]) ? $tag[$tagName] : "";
                         }
                         if (0 === $key) {
-                            $lines[] = $this->buildArgumentsArray($serviceId, $definition->getScope(), $definition->getClass(), $tagValues);
+                            $lines[] = $this->buildArgumentsArray($serviceId, $definition->getClass(), $tagValues);
                         } else {
-                            $lines[] = $this->buildArgumentsArray('  "', '', '', $tagValues);
+                            $lines[] = $this->buildArgumentsArray('  "', '', $tagValues);
                         }
                     }
                 } else {
-                    $lines[] = $this->buildArgumentsArray($serviceId, $definition->getScope(), $definition->getClass());
+                    $lines[] = $this->buildArgumentsArray($serviceId, $definition->getClass());
                 }
 
                 foreach ($lines as $arguments) {
@@ -255,22 +253,21 @@ EOF
                 }
             } elseif ($definition instanceof Alias) {
                 $alias = $definition;
-                $output->writeln(vsprintf($format, $this->buildArgumentsArray($serviceId, 'n/a', sprintf('<comment>alias for</comment> <info>%s</info>', (string) $alias), count($maxTags) ? array_fill(0, count($maxTags), "") : array())));
+                $output->writeln(vsprintf($format, $this->buildArgumentsArray($serviceId, sprintf('<comment>alias for</comment> <info>%s</info>', (string) $alias), count($maxTags) ? array_fill(0, count($maxTags), "") : array())));
             } else {
                 // we have no information (happens with "service_container")
                 $service = $definition;
-                $output->writeln(vsprintf($format, $this->buildArgumentsArray($serviceId, '', get_class($service), count($maxTags) ? array_fill(0, count($maxTags), "") : array())));
+                $output->writeln(vsprintf($format, $this->buildArgumentsArray($serviceId, get_class($service), count($maxTags) ? array_fill(0, count($maxTags), "") : array())));
             }
         }
     }
 
-    protected function buildArgumentsArray($serviceId, $scope, $className, array $tagAttributes = array())
+    protected function buildArgumentsArray($serviceId, $className, array $tagAttributes = array())
     {
         $arguments = array($serviceId);
         foreach ($tagAttributes as $tagAttribute) {
             $arguments[] = $tagAttribute;
         }
-        $arguments[] = $scope;
         $arguments[] = $className;
 
         return $arguments;
@@ -305,7 +302,7 @@ EOF
                 $output->writeln('<comment>Tags</comment>             -');
             }
 
-            $output->writeln(sprintf('<comment>Scope</comment>            %s', $definition->getScope()));
+//            $output->writeln(sprintf('<comment>Scope</comment>            %s', $definition->getScope()));
 
             $public = $definition->isPublic() ? 'yes' : 'no';
             $output->writeln(sprintf('<comment>Public</comment>           %s', $public));

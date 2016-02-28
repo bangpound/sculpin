@@ -39,7 +39,9 @@
             <argument>%kernel.environment%</argument>
         </service>
 
-        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%" factory-service="sculpin.site_configuration_factory" factory-method="create" />
+        <service id="sculpin.site_configuration" class="%sculpin.site_configuration.class%">
+            <factory service="sculpin.site_configuration_factory" method="create"/>
+        </service>
 
         <service id="sculpin.source_permalink_factory" class="%sculpin.source_permalink_factory.class%" public="false">
             <argument>%sculpin.permalink%</argument>
@@ -143,9 +145,9 @@
         </service>
 
         <service id="sculpin.event_loop"
-                 class="React\EventLoop\LoopInterface"
-                 factory-class="%sculpin.event_loop.factory.class%"
-                 factory-method="create"/>
+                 class="React\EventLoop\LoopInterface">
+            <factory class="sculpin.event_loop.factory.class" method="create" />
+        </service>
 
         <service id="sculpin.server.socket" class="%sculpin.server.socket.class%">
             <argument type="service" id="sculpin.event_loop" />
