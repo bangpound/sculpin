@@ -61,6 +61,20 @@
         "sculpin/textile-bundle": "self.version",
         "sculpin/twig-bundle": "self.version"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bangpound/dflydev-embedded-composer.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/bangpound/dflydev-embedded-composer-console.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/caxy/dflydev-embedded-composer-core.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Sculpin\\": "src/Sculpin/"
