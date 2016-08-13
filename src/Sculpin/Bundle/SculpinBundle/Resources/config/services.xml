@@ -146,7 +146,7 @@
 
         <service id="sculpin.event_loop"
                  class="React\EventLoop\LoopInterface">
-            <factory class="sculpin.event_loop.factory.class" method="create" />
+            <factory class="%sculpin.event_loop.factory.class%" method="create" />
         </service>
 
         <service id="sculpin.server.socket" class="%sculpin.server.socket.class%">
