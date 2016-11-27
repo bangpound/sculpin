@@ -41,7 +41,6 @@
         "symfony/yaml": "~2.3",
         "twig/twig": "~1.9",
         "twig/extensions": "~1.0",
-        "dflydev/embedded-composer": "^1.0@dev",
         "seld/jsonlint": "^1.4"
     },
     "require-dev": {
@@ -71,8 +70,5 @@
         "branch-alias": {
             "dev-master": "2.1.x-dev"
         }
-    },
-    "scripts": {
-        "post-autoload-dump": "Dflydev\\EmbeddedComposer\\Core\\Script::postAutoloadDump"
     }
 }
